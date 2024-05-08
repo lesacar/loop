@@ -32,11 +32,11 @@ void execute_command(const char* command) {
         // Parent process
         // Wait for the child process to complete
         int status;
-        waitpid(pid, &status, 0);
+         waitpid(pid, &status, 0);
     }
 }
 
-void inthand(int32_t signum) {
+void inthand() {
     stop = 1;
 }
 
@@ -46,8 +46,8 @@ int32_t maloop(char** out, int32_t argc, const char** argv, bool cust) {
 	int lc = 0;
 	if (cust == true) {lc++;}
     int c = 0; // count 
-    for (int i = 1 + lc; i < argc; i++) {
-        for (int j = 0; j < strlen(argv[i]); j++) {
+    for (size_t i = 1 + lc; i < (size_t)argc; i++) {
+        for (size_t j = 0; j < strlen(argv[i]); j++) {
             (*out)[c] = argv[i][j];
             c++;
         }
@@ -58,7 +58,7 @@ int32_t maloop(char** out, int32_t argc, const char** argv, bool cust) {
     return 0;
 }
 
-int32_t main(int argc, const char** argv) {
+int32_t main(int32_t argc, const char** argv) {
     if (argc < 2) {
         fprintf(stderr, "\"%s\" needs a command to loop\n", basename((char*)argv[0]));
         exit(EXIT_FAILURE);
